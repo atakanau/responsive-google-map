@@ -126,12 +126,14 @@ class RGM_Shortcode {
                 'Miles'=>$options['circle_range']
             );
 
-            wp_enqueue_script( "google-map-v3", "https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false" );
-            wp_register_script("om_wpgmap", plugin_dir_url(__FILE__)."js/om_wpgmap.js", array('google-map-v3'), $this->version, true);
-            wp_enqueue_script("om_wpgmap");
-            wp_localize_script( "om_wpgmap", 'OM', $Settings_Params);
+			wp_register_script("om_wpgmap", plugin_dir_url(__FILE__)."js/om_wpgmap.js", array('google-map-v3'), $this->version, true);
+			wp_enqueue_script( "google-map-v3", "https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;key=3NT3R_G00GLE_MAP5_AP1_K3Y" );
+			wp_add_inline_script( 'google-map-v3', 'var OM=[];' );
+			wp_enqueue_script("om_wpgmap");
+			wp_add_inline_script( "om_wpgmap", 'OM.push('.json_encode($Settings_Params, JSON_PRETTY_PRINT).');');
 
 
-            return "<div id='om_container'><div id='location-canvas' style='".(empty($form) ? "height:{$height}px;" : "")."width:100%;'></div></div>";
-        }
+			return "<div class='om_container'><div class='location-canvas' style='".(empty($form) ? "height:{$height}px;" : "")."width:100%;'></div></div>";
+		}
 }
+
